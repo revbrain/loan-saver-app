@@ -21,8 +21,7 @@ Lalu buka `http://localhost:5173`.
 3. Buat OAuth Client ID (Web application).
 4. Tambahkan Authorized JavaScript origins:
    - `http://localhost:5173`
-5. Salin Client ID ke aplikasi.
-6. (Opsional) Buat API Key dan tempel ke aplikasi.
+5. Client ID sudah ditanam di aplikasi.
 
 Setelah itu klik **Hubungkan Google**, pilih daftar task, dan klik **Sinkronkan jadwal**.
 

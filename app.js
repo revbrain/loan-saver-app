@@ -24,7 +24,6 @@ const resultMargin = document.getElementById("result-margin");
 const resultMarginPercent = document.getElementById("result-margin-percent");
 
 const clientIdInput = document.getElementById("client-id");
-const apiKeyInput = document.getElementById("api-key");
 const tasklistSelect = document.getElementById("tasklist");
 const newTasklistInput = document.getElementById("new-tasklist");
 const statusEl = document.getElementById("sync-status");
@@ -230,7 +229,6 @@ function buildSchedule(tabunganMingguan, cicilanBulanan) {
 function loadSavedConfig() {
   const saved = JSON.parse(localStorage.getItem("gTaskConfig") || "{}");
   clientIdInput.value = saved.clientId || DEFAULT_CLIENT_ID;
-  apiKeyInput.value = saved.apiKey || "";
 }
 
 function loadSavedToken() {
@@ -274,7 +272,6 @@ async function tryAutoReconnect() {
 function saveConfig() {
   const config = {
     clientId: clientIdInput.value.trim() || DEFAULT_CLIENT_ID,
-    apiKey: apiKeyInput.value.trim(),
   };
   localStorage.setItem("gTaskConfig", JSON.stringify(config));
   initGapiClient();
@@ -305,14 +302,10 @@ async function initGapiClient() {
   if (!gapiInited || !window.gapi) {
     return;
   }
-  const apiKey = apiKeyInput.value.trim();
   try {
     const initConfig = {
       discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest"],
     };
-    if (apiKey) {
-      initConfig.apiKey = apiKey;
-    }
     await gapi.client.init(initConfig);
     gapiClientReady = true;
   } catch (error) {
