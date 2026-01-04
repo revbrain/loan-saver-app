@@ -28,7 +28,6 @@ const tasklistSelect = document.getElementById("tasklist");
 const newTasklistInput = document.getElementById("new-tasklist");
 const statusEl = document.getElementById("sync-status");
 
-const btnSaveConfig = document.getElementById("btn-save-config");
 const btnAuth = document.getElementById("btn-auth");
 const btnCreateList = document.getElementById("btn-create-list");
 const btnSync = document.getElementById("btn-sync");
@@ -227,8 +226,7 @@ function buildSchedule(tabunganMingguan, cicilanBulanan) {
 }
 
 function loadSavedConfig() {
-  const saved = JSON.parse(localStorage.getItem("gTaskConfig") || "{}");
-  clientIdInput.value = saved.clientId || DEFAULT_CLIENT_ID;
+  clientIdInput.value = DEFAULT_CLIENT_ID;
 }
 
 function loadSavedToken() {
@@ -267,16 +265,6 @@ async function tryAutoReconnect() {
   if (tokenClient) {
     tokenClient.requestAccessToken({ prompt: "" });
   }
-}
-
-function saveConfig() {
-  const config = {
-    clientId: clientIdInput.value.trim() || DEFAULT_CLIENT_ID,
-  };
-  localStorage.setItem("gTaskConfig", JSON.stringify(config));
-  initGapiClient();
-  initGisClient();
-  setStatus("Konfigurasi tersimpan. Silakan hubungkan Google.");
 }
 
 function gapiLoaded() {
@@ -445,7 +433,6 @@ async function syncTasks() {
 form.addEventListener("input", calculate);
 form.addEventListener("change", calculate);
 frequencyInput.addEventListener("change", calculate);
-btnSaveConfig.addEventListener("click", saveConfig);
 btnAuth.addEventListener("click", handleAuthClick);
 btnCreateList.addEventListener("click", createTaskList);
 btnSync.addEventListener("click", syncTasks);
