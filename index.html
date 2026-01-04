@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rencana Tabungan Cicilan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+    <main class="app">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Kalkulator cicilan dan tabungan mingguan</p>
+          <h1>Rencana tabungan yang jelas, bukan kira-kira.</h1>
+          <p class="sub">
+            Hitung cicilan bulanan, tabungan per minggu, dan margin dari harga asli.
+            Lalu kirim ke Google Tasks supaya kamu mendapat pengingat otomatis.
+          </p>
+        </div>
+        <div class="badge">Versi web statis</div>
+      </header>
+
+      <section class="grid">
+        <section class="card">
+          <h2>Input utama</h2>
+          <form id="calc-form">
+            <label class="field">
+              <span>Harga asli (Rp)</span>
+              <input id="harga-asli" type="number" inputmode="numeric" min="0" placeholder="Masukkan harga asli" />
+            </label>
+
+            <label class="field">
+              <span>Tenor (bulan)</span>
+              <input id="tenor" type="number" inputmode="numeric" min="1" placeholder="Masukkan tenor" />
+            </label>
+
+            <div class="field">
+              <span>Metode perhitungan</span>
+              <div class="segmented">
+                <label>
+                  <input type="radio" name="mode" value="percent" checked />
+                  Persentase margin
+                </label>
+                <label>
+                  <input type="radio" name="mode" value="total" />
+                  Total akhir
+                </label>
+              </div>
+            </div>
+
+            <label class="field" id="margin-field">
+              <span>Margin dari harga asli (%)</span>
+              <input id="margin" type="number" inputmode="decimal" min="0" step="0.1" placeholder="Masukkan margin %" />
+            </label>
+
+            <label class="field hidden" id="total-field">
+              <span>Total akhir (Rp)</span>
+              <input id="total-akhir" type="number" inputmode="numeric" min="0" placeholder="Masukkan total akhir" />
+            </label>
+
+            <label class="field">
+              <span>Tanggal mulai cicilan</span>
+              <input id="start-date" type="date" />
+            </label>
+
+            <label class="field">
+              <span>Frekuensi task</span>
+              <select id="frequency">
+                <option value="weekly">Mingguan</option>
+                <option value="monthly">Bulanan</option>
+              </select>
+            </label>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Hasil perhitungan</h2>
+          <div class="results">
+            <div>
+              <p class="label">Total akhir</p>
+              <p id="result-total" class="value">-</p>
+            </div>
+            <div>
+              <p class="label">Cicilan per bulan</p>
+              <p id="result-monthly" class="value">-</p>
+            </div>
+            <div>
+              <p class="label">Tabungan per minggu</p>
+              <p id="result-weekly" class="value">-</p>
+            </div>
+            <div>
+              <p class="label">Margin nominal</p>
+              <p id="result-margin" class="value">-</p>
+            </div>
+            <div>
+              <p class="label">Margin persentase</p>
+              <p id="result-margin-percent" class="value">-</p>
+            </div>
+          </div>
+          <p class="note">
+            Perhitungan mingguan memakai rata-rata 52 minggu per 12 bulan.
+          </p>
+        </section>
+
+        <section class="card">
+          <h2>Preview jadwal</h2>
+          <div id="schedule-preview" class="schedule"></div>
+        </section>
+
+        <section class="card">
+          <h2>Sinkronkan Google Tasks</h2>
+          <p class="note">
+            Masukkan Client ID dan API Key dari Google Cloud. Setelah login, pilih daftar
+            task dan klik sinkronkan.
+          </p>
+          <div class="field hidden" id="client-id-field">
+            <span>OAuth Client ID</span>
+            <input id="client-id" type="text" placeholder="xxxx.apps.googleusercontent.com" />
+          </div>
+          <div class="field">
+            <span>API Key (opsional)</span>
+            <input id="api-key" type="text" placeholder="AIza..." />
+          </div>
+          <div class="actions">
+            <button id="btn-save-config" type="button">Simpan konfigurasi</button>
+            <button id="btn-auth" type="button">Hubungkan Google</button>
+          </div>
+          <div class="field">
+            <span>Daftar Tasks</span>
+            <select id="tasklist"></select>
+          </div>
+          <div class="field">
+            <span>Nama daftar baru (opsional)</span>
+            <input id="new-tasklist" type="text" placeholder="Tabungan Mingguan" />
+          </div>
+          <div class="actions">
+            <button id="btn-create-list" type="button">Buat daftar baru</button>
+            <button id="btn-sync" type="button">Sinkronkan jadwal</button>
+          </div>
+          <p id="sync-status" class="note status">Belum terhubung.</p>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://apis.google.com/js/api.js" async defer onload="gapiLoaded()"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer onload="gisLoaded()"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
